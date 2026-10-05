@@ -1,369 +1,80 @@
-# 👗 DeepFashion Classification using VAE + ResNet50
+DeepFashion Classification using VAE + ResNet50
 
-# 📌 Project Overview
+Overview
 
-This project focuses on **fashion image classification** using a hybrid Deep Learning pipeline combining:
+This project focuses on fashion image classification using the DeepFashion dataset. It combines ResNet50 for feature extraction, a Variational Autoencoder (VAE) for learning compact latent features, and a Dense Neural Network for clothing category classification.
 
-* **ResNet50** for feature extraction
-* **Variational Autoencoder (VAE)** for latent feature learning
-* **Dense Neural Network Classifier** for final category prediction
+Architecture
 
-The project is trained on the **DeepFashion dataset**, a large-scale clothing image dataset commonly used in computer vision and fashion AI research.
+Input Image
+    ↓
+Preprocessing & Augmentation
+    ↓
+ResNet50
+    ↓
+VAE
+    ↓
+Latent Features
+    ↓
+Dense Classifier
+    ↓
+Fashion Category
 
----
+Dataset
 
-## 🎯 Objectives
+The project uses the DeepFashion dataset, which contains clothing images across multiple fashion categories with variations in pose, background, and appearance.
 
-* Fashion image classification
-* Feature extraction using ResNet50
-* Latent representation learning with VAE
-* Model evaluation and visualization
+Dataset: https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html
 
----
-
-# 🧠 Architecture Pipeline
-
-```text
-Input Images
-      │
-      ▼
-Image Preprocessing & Augmentation
-      │
-      ▼
-ResNet50 Feature Extraction
-      │
-      ▼
-Variational Autoencoder (Encoder)
-      │
-      ▼
-Latent Feature Space
-      │
-      ▼
-Dense Neural Network Classifier
-      │
-      ▼
-Fashion Category Prediction
-```
-
----
-
-# 📂 Project Structure
-
-```bash
-DeepFashion.ipynb    # Complete project notebook containing:
-                     # - Data preprocessing
-                     # - Data augmentation
-                     # - ResNet50 feature extraction
-                     # - Variational Autoencoder (VAE)
-                     # - Classification model
-                     # - Training pipeline
-                     # - Evaluation metrics
-                     # - Visualizations
-```
-
----
-
-# ⚙️ Technologies Used
+Technologies
 
 * Python
 * TensorFlow / Keras
 * ResNet50
 * Variational Autoencoder (VAE)
 * NumPy
-* Matplotlib
+* Matplotlib / Seaborn
 * Scikit-learn
 
----|---|
-| Python | Core programming language |
-| TensorFlow / Keras | Deep learning framework |
-| ResNet50 | Transfer learning backbone |
-| Variational Autoencoder | Latent representation learning |
-| NumPy | Numerical computation |
-| Matplotlib | Data visualization |
-| Seaborn | Confusion matrix visualization |
-| Scikit-learn | Metrics and preprocessing |
+Model
 
----
+ResNet50: A pretrained ResNet50 model is used to extract visual features from fashion images.
 
-# 🖼️ Dataset Information
+VAE: The extracted features are passed through a Variational Autoencoder to learn a compact latent representation.
 
-## Dataset: DeepFashion
+Classifier: The latent features are passed to a Dense Neural Network with a Softmax output layer for final category prediction.
 
-The project uses the **DeepFashion Dataset**, which contains:
+Training
 
-* Thousands of clothing images
-* Multiple apparel categories
-* Real-world fashion variations
-* Diverse poses and backgrounds
+Parameter	Value
+Image Size	224 × 224
+Batch Size	16
+Optimizer	Adam
+Loss	Categorical Crossentropy
+Validation Split	30%
 
-### Dataset Features
-
-* High-resolution fashion images
-* Multi-class clothing categories
-* Real-world complexity
-* Large-scale fashion benchmark
-
-📎 Dataset Reference:
-
-* Official Dataset: [https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html](https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html)
-
----
-
-# 🔄 Data Preprocessing
-
-The following preprocessing techniques were applied:
-
-## ✅ Image Resizing
-
-```python
-IMG_SIZE = 224
-```
-
-## ✅ Data Augmentation
-
-Implemented using `ImageDataGenerator`:
-
-* Rotation
-* Width shift
-* Height shift
-* Zoom
-* Horizontal flip
-* Shear transformation
-
-Example:
-
-```python
-train_datagen = ImageDataGenerator(
-    rescale=1./255,
-    rotation_range=30,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    shear_range=0.2,
-    zoom_range=0.2,
-    horizontal_flip=True
-)
-```
-
----
-
-# 🧬 Model Components
-
-# 1️⃣ ResNet50 Feature Extractor
-
-The project uses a pretrained **ResNet50** CNN model for extracting meaningful visual features.
-
-### Why ResNet50?
-
-✅ Strong transfer learning performance
-✅ Deep residual learning
-✅ Excellent feature extraction capability
-✅ Widely used in computer vision research
-
----
-
-# 2️⃣ Variational Autoencoder (VAE)
-
-The VAE learns compressed latent representations of extracted image features.
-
-## VAE Components
-
-### Encoder
-
-Transforms input features into:
-
-* `z_mean`
-* `z_log_var`
-* latent vector `z`
-
-### Sampling Layer
-
-Applies reparameterization trick.
-
-### Decoder
-
-Reconstructs feature representations.
-
----
-
-## 📘 VAE Concept
-
-The encoder learns probability distributions rather than deterministic vectors.
-
-Latent sampling equation:
-
-[
-z = \mu + \sigma \cdot \epsilon
-]
-
-Where:
-
-* (\mu) = mean
-* (\sigma) = variance
-* (\epsilon) = random noise
-
----
-
-# 3️⃣ Dense Neural Network Classifier
-
-The latent vectors generated by the VAE are passed into a dense classifier.
-
-## Architecture
-
-```python
-Dense(256, activation='relu')
-Dropout(0.5)
-Dense(NUM_CLASSES, activation='softmax')
-```
-
-### Output
-
-Predicts fashion apparel categories.
-
----
-
-# 🚀 Model Training
-
-## Training Configuration
-
-| Parameter        | Value                    |
-| ---------------- | ------------------------ |
-| Image Size       | 224 × 224                |
-| Batch Size       | 16                       |
-| Optimizer        | Adam                     |
-| Loss Function    | Categorical Crossentropy |
-| Validation Split | 30%                      |
-
----
-
-# 📊 Evaluation Metrics
+Evaluation
 
 The model is evaluated using:
 
-✅ Accuracy
-✅ Classification Report
-✅ Confusion Matrix
-✅ ROC Curve
-✅ Validation Loss
+* Accuracy
+* Precision, Recall and F1-score
+* Confusion Matrix
+* ROC Curve
+* Training and Validation Loss
 
----
+Run
 
-# 🔥 Key Highlights
+Install the dependencies:
 
-✅ Hybrid Deep Learning Architecture
-✅ Transfer Learning with ResNet50
-✅ Variational Autoencoder Integration
-✅ Fashion Image Classification
-✅ Latent Space Representation Learning
-✅ Data Augmentation Pipeline
-✅ Visualization & Evaluation
+pip install tensorflow keras numpy matplotlib seaborn scikit-learn jupyter
 
----
+Start Jupyter Notebook:
 
-# ▶️ How to Run the Project
-
-## 1️⃣ Download the Notebook
-
-Make sure the following file is available:
-
-```text
-DeepFashion.ipynb
-```
-
-Optional: create a virtual environment
-
-```bash
-python -m venv venv
-source venv/bin/activate
-```
-
----
-
-## 2️⃣ Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 3️⃣ Open Jupyter Notebook
-
-```bash
 jupyter notebook
-```
 
-Open:
+Open DeepFashion.ipynb and run the cells in order.
 
-```text
-DeepFashion.ipynb
-```
+Conclusion
 
----
-
-# 📦 Example Requirements
-
-```txt
-tensorflow
-keras
-numpy
-matplotlib
-seaborn
-scikit-learn
-jupyter
-```
-
----
-
----
-
-# 🧪 Future Improvements
-
-* EfficientNet or Vision Transformers
-* Hyperparameter tuning
-* Streamlit deployment
-* Fashion recommendation system
-
----
-
-# 📚 References
-
-## Research Papers
-
-1. Kingma, D. P., & Welling, M. (2013).
-   *Auto-Encoding Variational Bayes*
-   [https://arxiv.org/abs/1312.6114](https://arxiv.org/abs/1312.6114)
-
-2. He, K., Zhang, X., Ren, S., & Sun, J. (2015).
-   *Deep Residual Learning for Image Recognition*
-   [https://arxiv.org/abs/1512.03385](https://arxiv.org/abs/1512.03385)
-
-3. Liu, Z., Luo, P., Qiu, S., Wang, X., & Tang, X. (2016).
-   *DeepFashion: Powering Robust Clothes Recognition and Retrieval*
-   [https://arxiv.org/abs/1606.01786](https://arxiv.org/abs/1606.01786)
-
----
-
-## Official Documentation
-
-* TensorFlow Documentation
-  [https://www.tensorflow.org/](https://www.tensorflow.org/)
-
-* Keras Documentation
-  [https://keras.io/](https://keras.io/)
-
-* Scikit-learn Documentation
-  [https://scikit-learn.org/](https://scikit-learn.org/)
-
----
-
-# 👨‍💻 Author
-
-Developed as part of a Deep Learning / Computer Vision project focused on fashion image classification.
-
----
-
-# 📌 Conclusion
-
-This project demonstrates how **transfer learning**, **variational autoencoders**, and **deep neural networks** can be combined to build an effective fashion image classification system.
-
-The hybrid architecture improves representation learning while maintaining strong classification performance.
+This project demonstrates an end-to-end fashion classification pipeline combining transfer learning, latent representation learning, and deep neural network classification.
